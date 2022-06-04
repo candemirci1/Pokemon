@@ -19,5 +19,9 @@
         <argument
             android:name="name"
             app:argType="string" />
+
+        <deepLink app:uri="https://pokemon.com/pokemon/{name}"/>
+
+
     </fragment>
 </navigation>
