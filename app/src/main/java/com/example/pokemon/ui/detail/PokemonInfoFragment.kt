@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -53,10 +54,11 @@ class PokemonInfoFragment: Fragment() {
                                 Glide.with(requireContext())
                                     .load(pokemonInfo.sprites.backDefault)
                                     .into(ivPokemonImage)
-                                tvPokemonName.text = pokemonInfo.name
-                                tvPokemonHeight.text = pokemonInfo.height.toString()
-                                tvPokemonWeight.text = pokemonInfo.weight.toString()
-                                tvPokemonAbility.text = pokemonInfo.abilities.map { it.ability.name }.toString()
+                                setPokemonInfo(tvPokemonName,pokemonInfo.name)
+                                setPokemonInfo(tvPokemonHeight,pokemonInfo.height.toString())
+                                setPokemonInfo(tvPokemonWeight,pokemonInfo.weight.toString())
+                                setPokemonInfo(tvPokemonAbility,setAbilities(pokemonInfo.abilities.map { it.ability.name }))
+
                             }
 
 
@@ -82,5 +84,18 @@ class PokemonInfoFragment: Fragment() {
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()
+    }
+
+    private fun setAbilities(abilities: List<String>): String {
+        var text =""
+        for (ability in abilities) {
+            text += "$ability\n"
+        }
+        return text
+    }
+
+    private fun setPokemonInfo(textView: TextView, text: String) {
+        textView.text = text
+
     }
 }

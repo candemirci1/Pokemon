@@ -25,9 +25,9 @@ class PokemonAdapter(
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val currentPokemon = pokemons[position]
         holder.binding.apply {
-            setName(tvPokemonName,currentPokemon)
+            setName(tvPokemonName,currentPokemon.name)
 
-            setImage(currentPokemon,this)
+            setImage(root.context,currentPokemon.url,ivPokemon)
 
             root.setOnClickListener {
                 onClick.invoke(currentPokemon.name)
@@ -40,22 +40,24 @@ class PokemonAdapter(
         return pokemons.size
     }
 
-    private fun setName(textview:TextView, currentPokemon: Pokemon) {
-        textview.text = currentPokemon.name.replaceFirstChar {
+    private fun setName(textview:TextView, name: String) {
+        textview.text = name.replaceFirstChar {
             it.uppercase()
         }
     }
 
     private fun setImage(
-        currentPokemon: Pokemon,
-        binding: ItemPokemonBinding
-    ) {
-        val pokemonNumber = currentPokemon.url.getNumber()
+        context: Context,
+        url: String,
+        imageView: ImageView
 
-        val url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/$pokemonNumber.png"
-        Glide.with(binding.root.context)
-            .load(url)
-            .into(binding.ivPokemon)
+    ) {
+        val pokemonNumber = url.getNumber()
+
+        val finalUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/$pokemonNumber.png"
+        Glide.with(context)
+            .load(finalUrl)
+            .into(imageView)
     }
 
 }
